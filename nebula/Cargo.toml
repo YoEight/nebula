@@ -1,0 +1,13 @@
+[package]
+name = "nebula"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies.nebula-core]
+path = "../nebula-core"
+
+[dependencies.nebula-runtime]
+path = "../nebula-runtime"
+
+[dependencies]
