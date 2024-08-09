@@ -55,8 +55,8 @@ impl Display for Literal {
 pub enum Punctuation {
     /// '.'
     Dot,
-    /// ':'
-    Colon,
+    /// '::'
+    DoubleColon,
     /// Left parenthesis `)`
     LParen,
     /// Right parenthesis `)`
@@ -65,20 +65,21 @@ pub enum Punctuation {
     LBracket,
     /// Right bracket `]`
     RBracket,
-    /// Pipe `|`
     Comma,
+    Backslash,
 }
 
 impl Display for Punctuation {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let str = match self {
             Punctuation::Dot => ".",
-            Punctuation::Colon => ":",
+            Punctuation::DoubleColon => "::",
             Punctuation::LParen => "(",
             Punctuation::RParen => ")",
             Punctuation::LBracket => "[",
             Punctuation::RBracket => "]",
             Punctuation::Comma => ",",
+            Punctuation::Backslash => "\\",
         };
 
         write!(f, "{}", str)
