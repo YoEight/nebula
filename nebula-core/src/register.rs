@@ -33,6 +33,11 @@ impl<A> Register<A> {
 
         self.inner.get(&id).map(|e| &e.value)
     }
+
+    pub fn remove(&mut self, scope: &Scope, name: &str) {
+        let id = generate_id(scope, name);
+        self.inner.remove(&id);
+    }
 }
 
 fn generate_id(scope: &Scope, name: &str) -> String {
