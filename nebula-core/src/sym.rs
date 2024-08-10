@@ -29,6 +29,7 @@ impl Display for Keyword {
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Literal {
+    Ref(String),
     Integer(i64),
     Double(f64),
     /// Double quoted string: i.e: "string"
@@ -39,15 +40,14 @@ pub enum Literal {
 
 impl Display for Literal {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let str = match self {
-            Literal::Integer(num) => num.to_string(),
-            Literal::Double(double) => double.to_string(),
-            Literal::String(s) => format!("\"{}\"", s),
-            Literal::Char(c) => format!("'{}'", c),
-            Literal::Bool(b) => b.to_string(),
-        };
-
-        write!(f, "{}", str)
+        match self {
+            Literal::Ref(n) => n.fmt(f),
+            Literal::Integer(num) => num.fmt(f),
+            Literal::Double(double) => double.fmt(f),
+            Literal::String(s) => write!(f, "\"{}\"", s),
+            Literal::Char(c) => write!(f, "'{}'", c),
+            Literal::Bool(b) => b.fmt(f),
+        }
     }
 }
 
@@ -106,17 +106,15 @@ pub enum Sym {
 
 impl Display for Sym {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let str = match self {
-            Sym::EOF => "EOF",
-            Sym::Literal(l) => return write!(f, "{}", l),
-            Sym::Punctuation(p) => return write!(f, "{}", p),
-            Sym::Id(i) => i.as_str(),
-            Sym::Keyword(k) => k.as_str(),
-            Sym::Whitespace => " ",
-            Sym::Eq => "=",
-            Sym::Underscore => "_",
-        };
-
-        write!(f, "{}", str)
+        match self {
+            Sym::EOF => write!(f, "'end of file'"),
+            Sym::Literal(l) => l.fmt(f),
+            Sym::Punctuation(p) => p.fmt(f),
+            Sym::Id(i) => i.fmt(f),
+            Sym::Keyword(k) => k.fmt(f),
+            Sym::Whitespace => write!(f, "<whitespace>"),
+            Sym::Eq => write!(f, "'='"),
+            Sym::Underscore => write!(f, "'_'"),
+        }
     }
 }

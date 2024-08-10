@@ -2,7 +2,7 @@ use crate::sym::Literal;
 
 #[derive(Debug, PartialEq)]
 pub struct Program<A> {
-    pub procs: Vec<Tag<Expr<A>, A>>,
+    pub exprs: Vec<Tag<Expr<A>, A>>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -34,8 +34,7 @@ impl<I, A> Tag<I, A> {
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Expr<A> {
-    Ident(String),
     Literal(Literal),
     Fun(String, Tag<Box<Tag<Expr<A>, A>>, A>),
-    App(Tag<Box<Tag<Expr<A>, A>>, A>, Box<Tag<Expr<A>, A>>),
+    App(Tag<Box<Tag<Expr<A>, A>>, A>, Tag<Box<Tag<Expr<A>, A>>, A>),
 }
