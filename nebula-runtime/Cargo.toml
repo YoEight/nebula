@@ -3,4 +3,8 @@ name = "nebula-runtime"
 version = "0.1.0"
 edition = "2021"
 
+[dependencies.nebula-core]
+path = "../nebula-core"
+
 [dependencies]
+eyre = "0.6"
