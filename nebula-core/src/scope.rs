@@ -6,6 +6,12 @@ pub struct Scope {
 }
 
 impl Scope {
+    pub fn new() -> Self {
+        Self { ancestors: vec![0] }
+    }
+}
+
+impl Scope {
     pub fn ancestors(&self) -> &[u32] {
         self.ancestors.as_ref()
     }

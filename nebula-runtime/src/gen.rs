@@ -62,8 +62,9 @@ fn generate_app(
     lhs: Tag<Box<Tag<Expr<Loc>, Loc>>, Loc>,
     rhs: Tag<Box<Tag<Expr<Loc>, Loc>>, Loc>,
 ) -> eyre::Result<Value> {
-    let lhs = generate(reg, scope.clone(), lhs)?;
-    let rhs = generate(reg, scope, rhs)?;
+    let new_scope = scope.inherits();
+    let lhs = generate(reg, scope, lhs)?;
+    let rhs = generate(reg, new_scope, rhs)?;
 
     Ok(Value::App {
         lhs: Box::new(lhs),

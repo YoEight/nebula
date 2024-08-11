@@ -12,6 +12,14 @@ pub struct Register<A> {
     inner: HashMap<String, Entry<A>>,
 }
 
+impl<A> Default for Register<A> {
+    fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
 impl<A> Register<A> {
     pub fn register(&mut self, scope: &Scope, name: &str, value: A) -> bool {
         let id = generate_id(scope, name);

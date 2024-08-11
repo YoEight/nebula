@@ -3,4 +3,19 @@ name = "nebula-repl"
 version = "0.1.0"
 edition = "2021"
 
+[dependencies.nebula-core]
+path = "../nebula-core"
+
+[dependencies.nebula-runtime]
+path = "../nebula-runtime"
+
+[dependencies.glyph]
+git = "https://github.com/YoEight/glyph.git"
+tag = "0.1.0"
+
+[dependencies.clap]
+version = "4.3"
+features = ["derive"]
+
 [dependencies]
+eyre = "0.6"

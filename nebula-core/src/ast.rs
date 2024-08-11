@@ -11,6 +11,15 @@ pub struct Tag<I, A> {
     pub tag: A,
 }
 
+impl<I, A> Tag<I, A> {
+    pub fn boxed(self) -> Tag<Box<I>, A> {
+        Tag {
+            item: Box::new(self.item),
+            tag: self.tag,
+        }
+    }
+}
+
 impl<I, A> std::fmt::Display for Tag<I, A>
 where
     I: std::fmt::Display,
