@@ -37,14 +37,14 @@ fn eta_reduction(reg: &mut Register<Value>, expr: Value) -> Value {
 
             if let Value::App { lhs, rhs } = body {
                 match *rhs {
-                    Value::Var(var) => {
+                    Value::Var(scope, var) => {
                         if name == var {
                             reg.remove(&scope, &name);
                             return *lhs;
                         } else {
                             Value::App {
                                 lhs,
-                                rhs: Box::new(Value::Var(var)),
+                                rhs: Box::new(Value::Var(scope, var)),
                             }
                         }
                     }

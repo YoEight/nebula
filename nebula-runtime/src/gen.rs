@@ -14,15 +14,15 @@ pub fn generate(
     expr: Tag<Box<Tag<Expr<Loc>, Loc>>, Loc>,
 ) -> eyre::Result<Value> {
     match (*expr.item).item {
-        Expr::Literal(l) => Ok(generate_literal(l)),
+        Expr::Literal(l) => Ok(generate_literal(scope, l)),
         Expr::Fun(n, b) => generate_fun(reg, scope, n, b),
         Expr::App(l, r) => generate_app(reg, scope, l, r),
     }
 }
 
-fn generate_literal(lit: Literal) -> Value {
+fn generate_literal(scope: Scope, lit: Literal) -> Value {
     match lit {
-        Literal::Ref(v) => Value::Var(v),
+        Literal::Ref(v) => Value::Var(scope, v),
         Literal::Integer(i) => Value::Integer(i),
         Literal::Double(d) => Value::Double(d),
         Literal::String(s) => Value::String(s),

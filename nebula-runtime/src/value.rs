@@ -5,7 +5,7 @@ use nebula_core::scope::Scope;
 #[derive(Clone)]
 pub enum Value {
     Uninitialized,
-    Var(String),
+    Var(Scope, String),
     Integer(i64),
     Double(f64),
     Bool(bool),
@@ -26,7 +26,7 @@ impl Display for Value {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Value::Uninitialized => write!(f, "<uninitialized>"),
-            Value::Var(v) => v.fmt(f),
+            Value::Var(_, v) => v.fmt(f),
             Value::Integer(i) => i.fmt(f),
             Value::Double(d) => d.fmt(f),
             Value::Bool(b) => b.fmt(f),
