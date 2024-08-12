@@ -12,7 +12,7 @@ pub mod gen;
 pub mod reduction;
 pub mod value;
 
-pub fn eval(mut prog: Program<Loc>) -> eyre::Result<Value> {
+pub fn derivation(mut prog: Program<Loc>) -> eyre::Result<Value> {
     let mut reg = Register::default();
     let scope = Scope::new();
     let root = prog.exprs.pop().unwrap();
@@ -22,5 +22,10 @@ pub fn eval(mut prog: Program<Loc>) -> eyre::Result<Value> {
     };
 
     let val = generate(&mut reg, scope, root)?;
+
+    if !val.is_func_application() {
+        eyre::bail!("can only derive top function applications");
+    }
+
     reduction(&mut reg, val)
 }

@@ -9,22 +9,31 @@ pub fn reduction(reg: &mut Register<Value>, expr: Value) -> eyre::Result<Value> 
 
 fn beta_reduction(reg: &mut Register<Value>, expr: Value) -> eyre::Result<Value> {
     match expr {
-        Value::App { lhs, rhs } => {
-            if let Value::Fun { scope, name, body } = *lhs {
+        Value::App { lhs, rhs } => match *lhs {
+            Value::Fun { scope, name, body } => {
                 let body = beta_reduction(reg, *body)?;
                 let rhs = beta_reduction(reg, *rhs)?;
 
                 reg.register(&scope, &name, rhs);
 
-                return Ok(Value::Fun {
+                Ok(Value::Fun {
                     scope,
                     name,
                     body: Box::new(body),
-                });
+                })
             }
 
-            eyre::bail!("exception: expected a function")
-        }
+            Value::Var(s, name) => {
+                let rhs = beta_reduction(reg, *rhs)?;
+
+                Ok(Value::App {
+                    lhs: Box::new(Value::Var(s, name)),
+                    rhs: Box::new(rhs),
+                })
+            }
+
+            _ => eyre::bail!("exception: expected a function or a variable"),
+        },
 
         x => Ok(x),
     }
